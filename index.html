@@ -1139,24 +1139,31 @@ body { display: flex; align-items: center; justify-content: center; }
   setActiveSlide(0);
   updateChrome();
 
-  // On mobile, sync chrome with scroll position
-  var scrollTimer;
-  window.addEventListener('scroll', function() {
-    if (!isMobile) return;
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(function() {
-      var best = 0;
-      for (var i = 0; i < slides.length; i++) {
-        var rect = slides[i].getBoundingClientRect();
-        if (rect.top < window.innerHeight / 2) best = i;
-      }
-      if (best !== current) {
-        current = best;
-        setActiveSlide(current);
-        updateChrome();
-      }
-    }, 100);
-  }, { passive: true });
+  // Mobile: sync chrome dots with scroll position via IntersectionObserver
+  var mobileObserver = null;
+  function setupObserver() {
+    if (mobileObserver) mobileObserver.disconnect();
+    if (!isMobile) { mobileObserver = null; return; }
+    mobileObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var idx = parseInt(entry.target.getAttribute('data-index'));
+          if (idx !== current) {
+            current = idx;
+            setActiveSlide(current);
+            updateChrome();
+          }
+        }
+      });
+    }, { rootMargin: '-40% 0px -50% 0px' });
+    for (var i = 0; i < slides.length; i++) mobileObserver.observe(slides[i]);
+  }
+  setTimeout(setupObserver, 600);
+  // Re-setup observer on resize (after mode switch)
+  window.addEventListener('resize', function() {
+    if (mobileObserver) { mobileObserver.disconnect(); mobileObserver = null; }
+    setTimeout(setupObserver, 300);
+  });
 
   if (hint) {
     setTimeout(function(){
