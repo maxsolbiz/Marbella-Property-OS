@@ -297,10 +297,10 @@ body { display: flex; align-items: center; justify-content: center; }
   .avatar-ring .initials { width: 42px; height: 42px; font-size: 16px; }
   .team-card-v2 .info .name { font-size: 16px; }
   .team-card-v2 .info .bio { font-size: 12px; }
-  .chrome { position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: auto; background: rgba(13,27,42,0.88); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.2); gap: 8px; }
+  .chrome { position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: auto; background: rgba(13,27,42,0.88); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.2); gap: 8px; pointer-events: auto; }
   .slide-counter { font-size: 10px; }
-  .dot { width: 5px; height: 5px; }
-  .dot-indicators { gap: 5px; }
+  .dot { width: 8px; height: 8px; cursor: pointer; pointer-events: auto; }
+  .dot-indicators { gap: 8px; pointer-events: auto; }
   .progress-bar { height: 1.5px; }
   .hint { bottom: 40px; font-size: 10px; }
   .slide.active-slide, .slide:not(.active-slide) { opacity: 1 !important; filter: none !important; }
@@ -309,6 +309,8 @@ body { display: flex; align-items: center; justify-content: center; }
   .slide[data-index="1"] .flex-row { flex-direction: column; }
   .slide[data-index="1"] .flex-row > div[style*="flex:0 0 58%"] { flex: 0 0 100% !important; max-width: 100% !important; }
   .slide[data-index="1"] .flex-row > div[style*="flex:0 0 38%"] { flex: 0 0 100% !important; max-width: 100% !important; }
+  .slide[data-index="2"] .flex-row { flex-direction: column; }
+  .slide[data-index="2"] .flex-row > div[style*="flex:0 0 38%"] { flex: 0 0 100% !important; max-width: 100% !important; }
   .slide[data-index="3"] .flex-row { flex-direction: column; }
   .slide[data-index="3"] .flex-row > div[style*="flex:0 0 45%"] { flex: 0 0 100% !important; max-width: 100% !important; }
   .slide[data-index="3"] .flex-row > div[style*="flex:0 0 44%"] { flex: 0 0 100% !important; max-width: 100% !important; }
@@ -316,6 +318,8 @@ body { display: flex; align-items: center; justify-content: center; }
   .slide[data-index="5"] .flex-row > div[style*="flex:0 0 50%"] { flex: 0 0 100% !important; max-width: 100% !important; }
   .slide[data-index="7"] .flex-row { flex-direction: column; }
   .slide[data-index="7"] .flex-row > div[style*="flex:0 0 55%"] { flex: 0 0 100% !important; max-width: 100% !important; }
+  .slide[data-index="8"] .slide-content > div[style*="display:flex"] { flex-direction: column; }
+  .slide[data-index="8"] .slide-content > div[style*="display:flex"] > div[style*="flex:0 0 50%"] { flex: 0 0 100% !important; max-width: 100% !important; }
   .slide[data-index="12"] .flex-row { flex-direction: column; gap: 10px !important; }
 
   /* Grid layouts: 3-col -> 1 col on mobile */
@@ -1025,6 +1029,11 @@ body { display: flex; align-items: center; justify-content: center; }
     dot.dataset.index = i;
     (function(idx){
       dot.addEventListener('click', function(e){
+        e.stopPropagation();
+        goTo(idx);
+      });
+      dot.addEventListener('touchend', function(e){
+        e.preventDefault();
         e.stopPropagation();
         goTo(idx);
       });
