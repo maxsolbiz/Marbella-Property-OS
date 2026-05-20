@@ -267,7 +267,66 @@ body { display: flex; align-items: center; justify-content: center; }
 .team-card-v2 .info .contact-line { font-size: 12px; color: var(--text-muted); letter-spacing: 0.3px; }
 .team-card-v2 .info .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
 .team-card-v2 .info .pill { font-size: 10px; padding: 3px 14px; border: 1px solid var(--gold); border-radius: 20px; color: var(--gold-light); letter-spacing: 0.6px; }
-</style>
+
+/* ——— Mobile Responsive ——— */
+@media (max-width: 767px) {
+  html, body { overflow-y: auto; }
+  .deck-container { width: 100%; height: auto !important; transform: none !important; border-radius: 0; box-shadow: none; overflow: visible; }
+  .slides-track { flex-direction: column; transform: none !important; transition: none !important; }
+  .slide { width: 100%; height: auto; min-height: 100vh; padding: 28px 18px; }
+  .slide-content { gap: 10px; }
+  .flex-row { flex-direction: column; gap: 12px; }
+  .flex-row > [style*="flex:0 0"] { flex: 1 1 100% !important; max-width: 100% !important; }
+  .flex-row > [style*="flex:0 0 50%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 55%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 44%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 38%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 45%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 48%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 40%"] { flex: 1 1 100% !important; }
+  .flex-row > [style*="flex:0 0 50%"] { flex: 1 1 100% !important; }
+  .nav-zone { display: none; }
+  .grid-overlay svg { opacity: 0.15; }
+  svg { max-width: 100% !important; height: auto !important; }
+  .section-label { margin-bottom: 8px; }
+  .metric-card { padding: 14px 16px; }
+  .metric-card .num { font-size: 28px; }
+  .pillar-card { padding-left: 12px; margin-bottom: 12px; }
+  .pillar-card h4 { font-size: 15px; }
+  .pillar-card p { font-size: 12px; }
+  .pain-card { padding: 18px 16px; }
+  .pain-card h3 { font-size: 15px; }
+  .pain-card p { font-size: 12px; }
+  .feature-card { padding: 16px 14px; }
+  .feature-card .name { font-size: 13px; }
+  .feature-card .desc { font-size: 11px; }
+  .feature-card .icon { width: 22px; height: 22px; }
+  .slide[data-index="0"] .slide-content > div:first-child { font-size: 16px !important; }
+  .slide[data-index="0"] [style*="font-size:48px"] { font-size: 32px !important; }
+  .slide[data-index="0"] [style*="font-size:17px"] { font-size: 14px !important; }
+  .slide[data-index="0"] [style*="font-size:13px"] { font-size: 11px !important; }
+  .slide[data-index="0"] [style*="opacity:0.12"] { display: none; }
+  .slide-cover .slide-content > div:first-child { font-size: 18px; }
+  .chrome { position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: auto; background: rgba(13,27,42,0.88); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.2); gap: 8px; }
+  .slide-counter { font-size: 10px; }
+  .dot { width: 5px; height: 5px; }
+  .dot-indicators { gap: 5px; }
+  .progress-bar { height: 1.5px; }
+  .team-card-v2 { flex-direction: column; padding: 20px; gap: 14px; }
+  .avatar-ring { width: 48px; height: 48px; }
+  .avatar-ring .initials { width: 42px; height: 42px; font-size: 16px; }
+  .team-card-v2 .info .name { font-size: 16px; }
+  .team-card-v2 .info .bio { font-size: 12px; }
+  .slide[data-index="14"] .slide-content > div:first-child { font-size: 28px !important; }
+  .slide[data-index="14"] [style*="font-size:15px"] { font-size: 13px !important; }
+  .slide[data-index="14"] [style*="position:absolute;bottom:48px;right:56px"] { width: 50px; height: 50px; bottom: 20px; right: 18px; }
+  .hint { bottom: 40px; font-size: 10px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .slide { padding: 36px 32px; }
+  .metric-card .num { font-size: 30px; }
+  .chrome { left: 32px; right: 32px; }
+}
 </head>
 <body>
 
@@ -936,6 +995,8 @@ body { display: flex; align-items: center; justify-content: center; }
   var dotsEl = document.getElementById('dots');
   var hint = document.getElementById('hint');
   var chrome = document.getElementById('chrome');
+  var deck = document.getElementById('deck');
+  var isMobile = window.innerWidth < 768;
 
   for (var i = 0; i < total; i++) {
     var dot = document.createElement('div');
@@ -962,7 +1023,11 @@ body { display: flex; align-items: center; justify-content: center; }
     if (index === current) return;
     isAnimating = true;
     current = index;
-    track.style.transform = 'translateX(-' + (current * 1280) + 'px)';
+    if (isMobile) {
+      slides[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      track.style.transform = 'translateX(-' + (current * 1280) + 'px)';
+    }
     setActiveSlide(current);
     updateChrome();
     setTimeout(function(){ isAnimating = false; }, DURATION);
@@ -1001,29 +1066,46 @@ body { display: flex; align-items: center; justify-content: center; }
   document.getElementById('navRight').addEventListener('click', function(){ goTo(current + 1); });
 
   document.getElementById('deck').addEventListener('wheel', function(e){
+    if (isMobile) return;
     if (e.deltaY > 0) { goTo(current + 1); }
     else { goTo(current - 1); }
   }, { passive: true });
 
-  var touchStartX = 0;
+  var touchStartX = 0, touchStartY = 0;
   document.getElementById('deck').addEventListener('touchstart', function(e){
     touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
   document.getElementById('deck').addEventListener('touchend', function(e){
-    var diff = touchStartX - e.changedTouches[0].screenX;
-    if (Math.abs(diff) > 60) {
-      if (diff > 0) goTo(current + 1);
+    if (isMobile) return;
+    var diffX = touchStartX - e.changedTouches[0].screenX;
+    var diffY = touchStartY - e.changedTouches[0].screenY;
+    if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) goTo(current + 1);
       else goTo(current - 1);
     }
   }, { passive: true });
 
   function resize() {
+    isMobile = window.innerWidth < 768;
     var w = window.innerWidth;
     var h = window.innerHeight;
-    var scale = Math.min(w / 1280, h / 720);
-    var deck = document.getElementById('deck');
-    deck.style.transform = 'scale(' + scale + ')';
-    deck.style.transformOrigin = 'center center';
+    if (!isMobile) {
+      var scale = Math.min(w / 1280, h / 720);
+      deck.style.transform = 'scale(' + scale + ')';
+      deck.style.transformOrigin = 'center center';
+      deck.style.overflow = 'hidden';
+      deck.style.height = '';
+      // Restore track position
+      track.style.transform = 'translateX(-' + (current * 1280) + 'px)';
+    } else {
+      deck.style.transform = 'none';
+      deck.style.height = '100%';
+      deck.style.overflow = 'visible';
+      track.style.transform = 'none';
+      // Scroll to current slide
+      slides[current].scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
   }
   window.addEventListener('resize', resize);
   resize();
