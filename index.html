@@ -275,16 +275,6 @@ body { display: flex; align-items: center; justify-content: center; }
   .slides-track { flex-direction: column; transform: none !important; transition: none !important; }
   .slide { width: 100%; height: auto; min-height: 100vh; padding: 28px 18px; }
   .slide-content { gap: 10px; }
-  .flex-row { flex-direction: column; gap: 12px; }
-  .flex-row > [style*="flex:0 0"] { flex: 1 1 100% !important; max-width: 100% !important; }
-  .flex-row > [style*="flex:0 0 50%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 55%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 44%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 38%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 45%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 48%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 40%"] { flex: 1 1 100% !important; }
-  .flex-row > [style*="flex:0 0 50%"] { flex: 1 1 100% !important; }
   .nav-zone { display: none; }
   .grid-overlay svg { opacity: 0.15; }
   svg { max-width: 100% !important; height: auto !important; }
@@ -301,26 +291,53 @@ body { display: flex; align-items: center; justify-content: center; }
   .feature-card .name { font-size: 13px; }
   .feature-card .desc { font-size: 11px; }
   .feature-card .icon { width: 22px; height: 22px; }
-  .slide[data-index="0"] .slide-content > div:first-child { font-size: 16px !important; }
-  .slide[data-index="0"] [style*="font-size:48px"] { font-size: 32px !important; }
-  .slide[data-index="0"] [style*="font-size:17px"] { font-size: 14px !important; }
-  .slide[data-index="0"] [style*="font-size:13px"] { font-size: 11px !important; }
-  .slide[data-index="0"] [style*="opacity:0.12"] { display: none; }
-  .slide-cover .slide-content > div:first-child { font-size: 18px; }
-  .chrome { position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: auto; background: rgba(13,27,42,0.88); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.2); gap: 8px; }
-  .slide-counter { font-size: 10px; }
-  .dot { width: 5px; height: 5px; }
-  .dot-indicators { gap: 5px; }
-  .progress-bar { height: 1.5px; }
   .team-card-v2 { flex-direction: column; padding: 20px; gap: 14px; }
   .avatar-ring { width: 48px; height: 48px; }
   .avatar-ring .initials { width: 42px; height: 42px; font-size: 16px; }
   .team-card-v2 .info .name { font-size: 16px; }
   .team-card-v2 .info .bio { font-size: 12px; }
-  .slide[data-index="14"] .slide-content > div:first-child { font-size: 28px !important; }
+  .chrome { position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: auto; background: rgba(13,27,42,0.88); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.2); gap: 8px; }
+  .slide-counter { font-size: 10px; }
+  .dot { width: 5px; height: 5px; }
+  .dot-indicators { gap: 5px; }
+  .progress-bar { height: 1.5px; }
+  .hint { bottom: 40px; font-size: 10px; }
+  .slide.active-slide, .slide:not(.active-slide) { opacity: 1 !important; filter: none !important; }
+
+  /* Stack flex-row layouts that don't fit side-by-side */
+  .slide[data-index="1"] .flex-row { flex-direction: column; }
+  .slide[data-index="1"] .flex-row > [style*="flex:0 0 58%"] { flex: 0 0 100% !important; }
+  .slide[data-index="1"] .flex-row > [style*="flex:0 0 38%"] { flex: 0 0 100% !important; }
+  .slide[data-index="3"] .flex-row { flex-direction: column; }
+  .slide[data-index="3"] .flex-row > [style*="flex:0 0 45%"] { flex: 0 0 100% !important; }
+  .slide[data-index="5"] .flex-row { flex-direction: column; }
+  .slide[data-index="5"] .flex-row > [style*="flex:0 0 50%"] { flex: 0 0 100% !important; }
+  .slide[data-index="7"] .flex-row { flex-direction: column; }
+  .slide[data-index="7"] .flex-row > [style*="flex:0 0 48%"] { flex: 0 0 100% !important; }
+  .slide[data-index="7"] .flex-row > [style*="flex:0 0 55%"] { flex: 0 0 100% !important; }
+
+  /* Grid layouts: 3-col -> 1 col, 2-col -> keep 2 col */
+  .slide[data-index="2"] [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  .slide[data-index="4"] [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  .slide[data-index="6"] [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  .slide[data-index="8"] [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+
+  /* Slide-specific fixes */
+  .slide[data-index="0"] [style*="font-size:48px"] { font-size: 28px !important; line-height: 1.2; }
+  .slide[data-index="0"] [style*="font-size:17px"] { font-size: 13px !important; }
+  .slide[data-index="0"] [style*="font-size:13px"] { font-size: 11px !important; }
+  .slide[data-index="0"] [style*="opacity:0.12"] { display: none; }
+  .slide[data-index="9"] .flex-row { flex-direction: column; gap: 8px !important; }
+  .slide[data-index="9"] [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
+  .slide[data-index="12"] .flex-row { flex-direction: column; gap: 10px !important; }
+  .slide[data-index="12"] [style*="display:flex;width:80%;height:26px"] { width: 100% !important; height: 24px !important; }
+  .slide[data-index="12"] [style*="display:flex;width:80%;height:26px"] > div { font-size: 7px !important; }
+  .slide[data-index="13"] [style*="font-size:46px"] { font-size: 28px !important; }
+  .slide[data-index="13"] [style*="font-size:15px"] { font-size: 13px !important; }
+  .slide[data-index="13"] [style*="position:absolute;bottom:48px;right:56px"] { width: 50px; height: 50px; bottom: 20px; right: 18px; }
+  .slide[data-index="14"] [style*="font-size:46px"] { font-size: 28px !important; }
   .slide[data-index="14"] [style*="font-size:15px"] { font-size: 13px !important; }
   .slide[data-index="14"] [style*="position:absolute;bottom:48px;right:56px"] { width: 50px; height: 50px; bottom: 20px; right: 18px; }
-  .hint { bottom: 40px; font-size: 10px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .slide { padding: 36px 32px; }
@@ -1097,14 +1114,28 @@ body { display: flex; align-items: center; justify-content: center; }
       deck.style.transformOrigin = 'center center';
       deck.style.overflow = 'hidden';
       deck.style.height = '';
-      // Restore track position
       track.style.transform = 'translateX(-' + (current * 1280) + 'px)';
     } else {
       deck.style.transform = 'none';
       deck.style.height = '100%';
       deck.style.overflow = 'visible';
       track.style.transform = 'none';
-      // Scroll to current slide
+      // Remove scroll listener before re-adding
+      if (window._scrollHandler) window.removeEventListener('scroll', window._scrollHandler);
+      // On mobile, detect which slide is in view on scroll
+      window._scrollHandler = function() {
+        var best = current;
+        for (var i = 0; i < slides.length; i++) {
+          var rect = slides[i].getBoundingClientRect();
+          if (rect.top < window.innerHeight / 2) best = i;
+        }
+        if (best !== current) {
+          current = best;
+          setActiveSlide(current);
+          updateChrome();
+        }
+      };
+      window.addEventListener('scroll', window._scrollHandler, { passive: true });
       slides[current].scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
