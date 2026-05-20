@@ -1106,37 +1106,19 @@ body { display: flex; align-items: center; justify-content: center; }
 
   function resize() {
     isMobile = window.innerWidth < 768;
-    var w = window.innerWidth;
-    var h = window.innerHeight;
     if (!isMobile) {
+      var w = window.innerWidth, h = window.innerHeight;
       var scale = Math.min(w / 1280, h / 720);
       deck.style.transform = 'scale(' + scale + ')';
       deck.style.transformOrigin = 'center center';
       deck.style.overflow = 'hidden';
       deck.style.height = '';
       track.style.transform = 'translateX(-' + (current * 1280) + 'px)';
+      track.style.flexDirection = '';
     } else {
       deck.style.transform = 'none';
-      deck.style.height = '100%';
       deck.style.overflow = 'visible';
       track.style.transform = 'none';
-      // Remove scroll listener before re-adding
-      if (window._scrollHandler) window.removeEventListener('scroll', window._scrollHandler);
-      // On mobile, detect which slide is in view on scroll
-      window._scrollHandler = function() {
-        var best = current;
-        for (var i = 0; i < slides.length; i++) {
-          var rect = slides[i].getBoundingClientRect();
-          if (rect.top < window.innerHeight / 2) best = i;
-        }
-        if (best !== current) {
-          current = best;
-          setActiveSlide(current);
-          updateChrome();
-        }
-      };
-      window.addEventListener('scroll', window._scrollHandler, { passive: true });
-      slides[current].scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
   window.addEventListener('resize', resize);
@@ -1145,6 +1127,25 @@ body { display: flex; align-items: center; justify-content: center; }
   // Init active slide
   setActiveSlide(0);
   updateChrome();
+
+  // On mobile, sync chrome with scroll position
+  var scrollTimer;
+  window.addEventListener('scroll', function() {
+    if (!isMobile) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      var best = 0;
+      for (var i = 0; i < slides.length; i++) {
+        var rect = slides[i].getBoundingClientRect();
+        if (rect.top < window.innerHeight / 2) best = i;
+      }
+      if (best !== current) {
+        current = best;
+        setActiveSlide(current);
+        updateChrome();
+      }
+    }, 100);
+  }, { passive: true });
 
   if (hint) {
     setTimeout(function(){
