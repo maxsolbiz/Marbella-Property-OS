@@ -323,7 +323,7 @@ body { display: flex; align-items: center; justify-content: center; }
   .slide[data-index="12"] .flex-row { flex-direction: column; gap: 10px !important; }
 
   /* Grid layouts: 3-col -> 1 col on mobile */
-  .slide[data-index="1"] [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  .pain-grid { grid-template-columns: 1fr !important; }
   .slide[data-index="4"] [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
   .slide[data-index="6"] [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
   .slide[data-index="8"] [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
@@ -397,7 +397,7 @@ body { display: flex; align-items: center; justify-content: center; }
       <div class="slide-content">
         <div class="section-label">The Problem</div>
         <div style="font-family:var(--font-display);font-size:26px;font-weight:700;margin-bottom:18px;">Property Management in Spain is Broken</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;flex:1;align-content:center;">
+        <div class="pain-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;flex:1;align-content:center;">
           <div class="pain-card">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
               <div class="num">✕</div><span style="font-size:11px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;">Fragmentation</span>
